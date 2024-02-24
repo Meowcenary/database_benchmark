@@ -11,14 +11,14 @@ these command to create the testing database and database user:
 
 Postgres: `psql -h localhost -d postgres -U postgres -f create_postgres.sql`
 
-Mysql: `...`
+Mysql: `mysql -u root < create_mysql.sql`
 
 ### Running the scripts
 **Data Generation:**
 
 Postgres: `pipenv run create_and_load_postgres_data.py`
 
-Mysql: `pipenv run ...`
+Mysql: `pipenv run create_and_load_mysql_data`
 
 **Benchmarking:**
 
