@@ -1,10 +1,4 @@
-from datetime import datetime
-from random import choice, randint, uniform
-
 import mysql.connector
-from faker import Faker
-
-faker = Faker()
 
 # define tables to be created
 tables = []
@@ -76,52 +70,6 @@ cursor = conn.cursor()
 # Create tables
 for table_def in tables:
     cursor.execute(table_def)
-
-# Generate fake data
-for i in range(1, 1001):
-    # Generate and insert fake user data
-    name = faker.name()
-    email = faker.email()
-    phone_number = faker.phone_number()
-    cursor.execute("\
-        INSERT INTO users (name, email, phone_number) \
-        VALUES (%s, %s, %s)", (name, email, phone_number)
-    )
-
-    vendor_name = faker.company()
-    vendor_state = faker.state()
-    vendor_zip = faker.zipcode()
-    cursor.execute("\
-        INSERT INTO vendors (name, state, zip) \
-        VALUES (%s, %s, %s)", (vendor_name, vendor_state, vendor_zip)
-    )
-
-    # take random value from 1 to 1000
-    product_vendor_id = randint(1, i)
-    # generate one to three words and remove the period
-    name = faker.sentence(3)[:-1]
-    description = " ".join([faker.sentence(15) for _ in range(10)])
-    price = uniform(10, 1000)
-    stock_quantity = randint(50, 10000)
-    cursor.execute("\
-        INSERT INTO products (vendor_id, name, description, price, stock_quantity) \
-        VALUES (%s, %s, %s, %s, %s)", (product_vendor_id, name, description, price, stock_quantity)
-    )
-
-    order_user_id = randint(1, i)
-    order_product_id = randint(1, i)
-    order_date = faker.date_between_dates(date_start=datetime(2020, 1, 1), date_end=datetime(2024, 3, 1))
-    # this could be improved to check the product id to see how much stock there is, but it's not really necessary for
-    # benchmarking
-    order_total_product = randint(10, 1000)
-    order_shipping_address = faker.address()
-    order_payment_method = choice(payment_methods)
-    order_status = choice(statuses)
-    cursor.execute("\
-        INSERT INTO orders (user_id, product_id, order_date, total_product, shipping_address, payment_method, status) \
-        VALUES (%s, %s, %s, %s, %s, %s, %s)", (order_user_id, order_product_id, order_date, order_total_product,
-                                               order_shipping_address, order_payment_method, order_status)
-    )
 
 # Commit the changes and close the connection
 conn.commit()
