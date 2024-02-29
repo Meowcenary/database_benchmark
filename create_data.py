@@ -10,14 +10,14 @@ class CreateData:
         self.products = []
         self.orders = []
 
-    def generate_data(self):
+    def generate_data(self, records_to_generate=1000):
         faker = Faker()
 
         payment_methods = ['Credit Card', 'Mailed Check', 'Paypal', 'Electronic Check']
         statuses = ['Pending', 'Shipped', 'Cancelled', 'Delivered']
 
         # Generate fake data
-        for i in range(1, 1001):
+        for i in range(1, records_to_generate+1):
             # User data
             name = faker.name()
             email = faker.email()
