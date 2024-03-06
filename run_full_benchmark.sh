@@ -98,4 +98,5 @@ brew services start mysql
 brew services stop postgresql@13
 pipenv run python3 benchmark_mysql.py
 echo -------------------------------
+echo
 echo Benchmark Complete
